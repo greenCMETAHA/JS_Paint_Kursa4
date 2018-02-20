@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+	    	<meta charset="utf-8">
+		<link href="./css/style.css" rel="stylesheet">
+		<title>Курсовой проект: простейший графический редактор</title>
+		<script src="http://code.jquery.com/jquery-3.0.0.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+
+		<link rel="stylesheet" type="text/css" href="./css/popupmenu.css">
+
+		<script type="text/javascript" src="./js/libraries/jquery.jlnav.js"></script>
+		
+		<script src="./js/moveObjects.js"></script>
+		<script src="./js/utils.js"></script>
+		<script src="./js/menu.js"></script>
+		<script src="./js/settings.js"></script>
+		<script src="./js/panels.js"></script>
+	<!--	<script type="text/javascript" src="./js/libraries/file-dialog.min.js"></script> -->
+
+			
+	</head>
+
+		
+
+		<div class="wrapper">
+				<div id="navigation" class="navigation">
+				<div class="nav-menu">
+				<ul>
+					<li><img src="./images/paint-logo.png" height="50" width="50"  alt=""></li>
+					<li><a href="#">Файл</a>
+						<ul>
+							<li><a href="#" onclick="mainMenu(MENU_NEW_FILE)">Новый файл</a></li>
+							<li><a href="#" onclick="mainMenu(MENU_OPEN_FILE)">Открыть файл</a></li>
+							<li><a href="#" onclick="mainMenu(MENU_SAVE_FILE)">Сохранить файл</a></li>
+							<li><a href="#" onclick="mainMenu(MENU_SAVE_FILE_AS)">Сохранить файл как</a></li>
+							<li><a href="#"><hr></a></li>
+							<li><a href="#" onclick="mainMenu(MENU_PRINT)">Печать</a></li>
+						</ul>	
+					</li>				
+					<li><a href="#">Редактировать</a>
+						<ul>
+							<li><a href="#" onclick="mainMenu(MENU_UNDO)">Действие назад</a></li>
+							<li><a href="#" onclick="mainMenu(MENU_REDU)">Действие вперед</a>
+							<li><a href="#"><hr></a></li>
+						</ul>
+					</li>
+					<li><a href="#">Объекты</a>
+						<ul>
+								<li><a href="#"  onCLick="onClickMainMenu(BUTTON_MOVE)">
+									<img src="./images/buttons/move.png" class="menuImage">  Перемещение</a></li>
+								<li><a href="#">Выделение</a>
+									<ul>
+										<li><a href="#" onCLick="onClickMainMenu(BUTTON_SELECT_RECTANGLE)">
+												<img src="./images/buttons/select.png" class="menuImage">   Прямоугольник</a></li>
+										<li><a href="#" onCLick="onClickMainMenu(BUTTON_SELECT_LASSO)">
+												<img src="./images/buttons/selectlasso.png" class="menuImage">  Лассо</a></li>  
+									</ul>										
+								</li>
+								<li><a href="#">Карандаш</a>
+									<ul>
+										<li><a href="#" onCLick="onClickMainMenu(BUTTON_POINTS)">
+												<img src="./images/buttons/pen.png" class="menuImage">  Точки</a></li>
+										<li><a href="#" onCLick="onClickMainMenu(BUTTON_CURVE)">
+												<img src="./images/buttons/curve.png" class="menuImage">  Многоугольник по точкам</a></li>  
+									</ul>			
+								</li>
+								<li><a href="#">Фигуры</a>
+									<ul>
+											<li><a href="#" onCLick="onClickMainMenu(BUTTON_RECTANGLE)">
+													<img src="./images/buttons/rectangle.png" class="menuImage">  Прямоугольник</a></li>
+											<li><a href="#" onCLick="onClickMainMenu(BUTTON_TRIANGLE)">
+													<img src="./images/buttons/triangle.png" class="menuImage">  Треугольник</a></li>
+											<li><a href="#" onCLick="onClickMainMenu(BUTTON_CIRCLE)">
+													<img src="./images/buttons/circle.png" class="menuImage">  Окружность</a></li>
+											<li><a href="#" onCLick="onClickMainMenu(BUTTON_STAR)">
+													<img src="./images/buttons/star.png" class="menuImage">  Звезда</a></li>
+											<li><a href="#" onCLick="onClickMainMenu(BUTTON_LINE)">
+													<img src="./images/buttons/line.png" class="menuImage">  Линия</a></li>
+									</ul>			
+								</li>								
+
+								<li><a href="#" onCLick="onClickMainMenu(BUTTON_TEXT)">
+									<img src="./images/buttons/text.png" class="menuImage">  Текст</a></li>
+								<li><a href="#"  onCLick="onClickMainMenu(BUTTON_CLEAR)">
+									<img src="./images/buttons/clear.png" class="menuImage">  Стирка</a></li>
+								<li><a href="#"  onCLick="onClickMainMenu(BUTTON_FILL)">
+									<img src="./images/buttons/fill.png" class="menuImage">  Заливка</a></li>
+								<li><a href="#"  onCLick="onClickMainMenu(BUTTON_PIPET)">
+											<img src="./images/buttons/pipet.png" class="menuImage">  Взять цвет</a></li>									
+								<li><a href="#"  onCLick="mainMenu(BUTTON_IMAGE)">
+										<img src="./images/buttons/image.png" class="menuImage">  Изображение</a></li>
+
+							</ul>				
+					</li>
+					<li><a href="#">Вид</a>
+						<ul>
+							<li><a href="#" onCLick="workWithPanel(PANEL_SETTINGS,PANEL_OPEN)">  Показать панель свойств</a></li>
+							<li><a href="#" onCLick="workWithPanel(PANEL_HISTORY,PANEL_OPEN)">  История</a></li>
+						</ul>				
+					</li>					
+					<li><a href="#">Помощь</a>
+						<ul>
+							<li><a href="./html/about.html" target="_blank">О проекте</a></li>
+							<li><a href="./html/aboutMe.html" target="_blank" >Обо мне</a>
+						</ul>				
+					</li>
+					<div id="buttonsOkCancelDiv">
+						<li >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li class="menuImageOkCancel"><img src="./images/ok.png" class="toolImage" 
+								id="menuButtonOk" onCLick="onClickMainMenu(BUTTON_OK)" alt="Сохранить изменения"></li>
+						<li class="menuImageOkCancel"><img src="./images/cancel.png" class="toolImage" 
+								id="menuButtonCancel" onCLick="onClickMainMenu(BUTTON_CANCEL)" alt="Отменить изменения"></li>
+					</div>
+				</ul>
+				</div>
+			</div>
+		</div>
+
+
+
+	<body>
+		<div class="mainWindow">
+			<div id="buttons" class="buttons">
+				<img src="./images/buttons/move.png" class="toolImageActive" id="bMove" alt="Перемещение" onCLick="onClickByLeftMenu(BUTTON_MOVE)"><br/>
+
+				<ul class='custom-menu custom-style' id="popupForbSelect">
+					<li onclick="onClickByLeftMenu(BUTTON_SELECT_RECTANGLE)"><img src="./images/buttons/select.png" class="toolImageForPopup"  alt="Выделить прямоугольником">  Выделить прямоугольником</li>
+					<li onclick="onClickByLeftMenu(BUTTON_SELECT_LASSO)"><img src="./images/buttons/selectlasso.png" class="toolImageForPopup"  alt="Выделить с помощь лассо">  Выделить с помощью лассо</li>
+				  </ul>				
+				<img src="./images/buttons/select.png" class="toolImage" id="bSelect" alt="Выделение" onCLick="onClickByLeftMenu(CURRENT_BUTTON_SELECT)"><br/>
+	
+				<ul class='custom-menu custom-style' id="popupForbPen">
+					<li onclick="onClickByLeftMenu(BUTTON_POINTS)"><img src="./images/buttons/pen.png" class="toolImageForPopup"  alt="Рисуем точки">  Точки</li>
+					<li onclick="onClickByLeftMenu(BUTTON_CURVE)"><img src="./images/buttons/curve.png" class="toolImageForPopup"  alt="Рисуем многоугольник по точкам">  Многоугольник по точкам</li>
+				  </ul>				
+				<img src="./images/buttons/pen.png" class="toolImage" id="bPen" alt="Ломаная фигура" onCLick="onClickByLeftMenu(CURRENT_BUTTON_POINTS)"><br/>
+
+				<ul class='custom-menu custom-style' id="popupForbShape">
+					<li onclick="onClickByLeftMenu(BUTTON_RECTANGLE)"><img src="./images/buttons/rectangle.png" class="toolImageForPopup"  alt="Рисуем прямоугольник">  Прямоугольник</li>
+					<li onclick="onClickByLeftMenu(BUTTON_TRIANGLE)"><img src="./images/buttons/triangle.png" class="toolImageForPopup"  alt="Рисуем треугольник">  Треугольник</li>
+					<li onclick="onClickByLeftMenu(BUTTON_CIRCLE)"><img src="./images/buttons/circle.png" class="toolImageForPopup"  alt="Рисуем окружность">  Окружность</li>
+					<li onclick="onClickByLeftMenu(BUTTON_STAR)"><img src="./images/buttons/star.png" class="toolImageForPopup"  alt="Рисуем звездочку">  Звездочка</li>
+					<li onclick="onClickByLeftMenu(BUTTON_LINE)"><img src="./images/buttons/line.png" class="toolImageForPopup"  alt="Рисуем линию">  Линия</li>
+					
+				  </ul>						
+				<img src="./images/buttons/rectangle.png" class="toolImage" id="bShape" alt="Объекты" onCLick="onClickByLeftMenu(CURRENT_BUTTON_SHAPE)"><br/>
+				<img src="./images/buttons/text.png" class="toolImage" id="bText" alt="Текст" onCLick="onClickByLeftMenu(BUTTON_TEXT)"><br/>
+				<img src="./images/buttons/clear.png" class="toolImage" id="bClear" alt="Стирка" onCLick="onClickByLeftMenu(BUTTON_CLEAR)"><br/>
+				<img src="./images/buttons/fill.png" class="toolImage" id="bFill" alt="Заливка" onCLick="onClickByLeftMenu(BUTTON_FILL)"><br/>
+				<img src="./images/buttons/pipet.png" class="toolImage" id="bPipet" alt="Взять основной цвет" onCLick="onClickByLeftMenu(BUTTON_PIPET)"><br/>
+				<input id='currentColor' alt="Цвет линии"  onCLick="onClickByLeftMenu(BUTTON_COLOR)"/>
+				<input id='currentBackgroundColor' alt="Цвет фона" onCLick="onClickByLeftMenu(BUTTON_BACKGROUND_COLOR)" />
+			</div>
+
+
+			<div id="main" class="main">
+				<canvas id='mainCanvas'>Обновите браузер</canvas>
+			
+			</div>
+			<aside class="settings" id="settingsDiv"><h5>
+				<div class="header">
+					<image src="./images/buttons/shift.png" onclick="workWithPanel(PANEL_SETTINGS,PANEL_SHIFT)"  alt="Свернуть/Развернуть панель" height="25" width="25">
+					<image src="./images/buttons/close.png" onclick="workWithPanel(PANEL_SETTINGS,PANEL_HIDE)"  alt="Закрыть панель" height="25" width="25"></image>
+					&nbsp;<b>Настройки:</b></h5>
+				</div>
+				<div id="divSettings"> ---
+				</div>
+			</aside>			
+			<aside class="histories" id="historyPanel"><h5>
+				<div class="header">
+					<image src="./images/buttons/shift.png" onclick="workWithPanel(PANEL_HISTORY,PANEL_SHIFT)"  alt="Свернуть/Развернуть панель" height="25" width="25">
+					<image src="./images/buttons/close.png" onclick="workWithPanel(PANEL_HISTORY,PANEL_HIDE)"  alt="Закрыть панель" height="25" width="25"></image>
+					&nbsp;<b>История:</b></h5>
+				</div>
+				<div id="historyList"> ---
+				</div>
+			</aside>			
+		</div>
+
+			
+	
+		<input type="file" id="theFilePath" value="${currentPath}" hidden/>
+		<input type="file" id="savedFile" value="${currentPath}" hidden/>
+		<script src="./js/beans/base.js"></script>
+		<script src="./js/beans/beans.js"></script>
+		<script src="./js/show.js"></script>
+		<script src="./js/main.js"></script>				
+		<script src="./js/shapes.js"></script>
+		<script src="./js/libraries/popup.js"></script>	
+				
+	</body>
+</html>

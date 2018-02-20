@@ -1,0 +1,22 @@
+
+.photoAbout{
+    width: 40%;
+    display:inline-block;
+}
+.textAbout{
+    width: 50%;    
+    margin-left:5px; 
+    display:inline-block; 
+    vertical-align: top;
+    margin: 20px;
+
+
+}
+
+body {
+    background: #f9e6cf ; /* Цвет фона и путь к файлу */
+  }
+
+
+
+
