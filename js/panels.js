@@ -4,7 +4,7 @@ var panelsOpenSettings={
 }
 function workWithPanel(panel,mode) {
     let currentPanel=null;
-    let panelName="";
+    let panelName=""; 
     switch (panel) {
         case PANEL_SETTINGS:
             currentPanel=document.getElementById("settingsDiv");
@@ -63,6 +63,7 @@ function showHistoryList() {
 
 function onClickHistory(actionNumber) {
     currentObject=currentstepOfHistory===-1?[]:copyArray(historyChannel[actionNumber]);
+    currentstepOfHistory=actionNumber;
    // console.log("history: "+currentObject+" from "+historyChannel.length);
     showHistoryList();
     show();      

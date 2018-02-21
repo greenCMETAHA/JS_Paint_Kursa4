@@ -5,8 +5,8 @@ var moveMode=undefined;
 
 function onMouseDownShapes(coordinates) {
     if (!isOkCancelVisible){
-        colorValue=document.getElementById("currentColor").value;
-        backgroundColorValue=document.getElementById("currentBackgroundColor").value;
+        let colorValue=document.getElementById("currentColor").value;
+        let backgroundColorValue=document.getElementById("currentBackgroundColor").value;
         let settings=getCurrentSettingsForElement();
         let linewidth=2;
         switch (currentTool) {
@@ -84,6 +84,9 @@ function onMouseMoveShapes(coordinates,buttonPressed) {
         case BUTTON_CLEAR:
             document.getElementsByTagName("canvas")[0].style.cursor = "url('"+cursors.eraser.src+"'), auto";
             break;
+        case BUTTON_PIPETTE:
+            document.getElementsByTagName("canvas")[0].style.cursor = "url('"+cursors.pipette.src+"'), auto";
+            break;            
         default:
             break;
     }
@@ -415,9 +418,7 @@ function onMouseUpShapes(coordinates, shapeType) {
 
                 bErase=false;
                 break;
-            case BUTTON_PIPET:    //удаление точек 
-
-                break;                
+            
             default:
                 objectInProcess. onMouseUp(coordinates, shapeType);
                 break;
@@ -434,6 +435,24 @@ function onMouseUpShapes(coordinates, shapeType) {
                 isOkCancelVisible=false;
 
                 break;  
+            case BUTTON_PIPETTE:    //получить цвет в определенной точке
+                
+                $("#currentColor").spectrum({
+                    color:  colorInCoordinates(coordinates)
+                });
+                isOkCancelVisible=false;
+                break;  
+            case BUTTON_FILL:
+                let colorInPoint = colorInCoordinates(coordinates);
+                let colorValue=document.getElementById("currentColor").value;
+                let backgroundColorValue=document.getElementById("currentBackgroundColor").value;
+
+                objectInProcess=new FillShape("fill",colorValue);
+                    
+                fillCanvasWhileColor(colorInPoint,coordinates.x,coordinates.y);  //рекурсия
+                objectInProcess.onMouseDown();             
+
+                break;                   
             default:
                 break;
         }
@@ -442,3 +461,75 @@ function onMouseUpShapes(coordinates, shapeType) {
     visibilityOkCancelDiv();
     show();
 }
+
+/*function fillCanvasWhileColor(colorInPoint,x,y) {  //рекурсия. заполнение по точкам, но не срабатывает, т.к. стек переполняемся очень быстро
+    let colorValue=document.getElementById("currentColor").value;
+    objectInProcess.setPoint(x,y,colorValue);
+    context.restore();
+    context.strokeStyle=colorValue;
+    context.fillStyle=colorValue;
+    context.fillRect(x,y,1,1);  
+    console.log(objectInProcess.points.length);  
+
+    if ((x-1)>0 && colorInPoint === colorInCoordinatesXY(x-1,y)){
+        fillCanvasWhileColor(colorInPoint,x-1,y);
+    }
+
+    if ((y-1)>0 && colorInPoint === colorInCoordinatesXY(x,y-1)){
+        fillCanvasWhileColor(colorInPoint,x,y-1);
+    } 
+    
+    if ((x+1)<mainCanvas.width && colorInPoint === colorInCoordinatesXY(x+1,y)){
+        fillCanvasWhileColor(colorInPoint,x+1,y);
+    }    
+    
+    if ((y+1)<mainCanvas.height && colorInPoint === colorInCoordinatesXY(x,y+1)){
+        fillCanvasWhileColor(colorInPoint,x,y+1);
+    }      
+    
+} */
+
+function fillCanvasWhileColor(colorInPoint,x,y) {    //рекурсия. Работает по линиям, но работает медленно. Наверное, потому как приходится часто опрашивать canvas  на цвет.
+    let colorValue=document.getElementById("currentColor").value;
+    let minX=x;
+    while ((minX-1)>0 && colorInPoint === colorInCoordinatesXY(minX-1,y)){
+        minX--;
+    }
+    let maxX=x;
+    while ((maxX+1)<mainCanvas.width && colorInPoint === colorInCoordinatesXY(maxX+1,y)){
+        maxX++;
+    }    
+    if ((minX!==maxX) || (minX===maxX && colorInPoint === colorInCoordinatesXY(maxX,y))){
+        objectInProcess.addLine(minX,y,maxX,y); //первая линия
+        context.restore();
+        context.strokeStyle=colorValue;
+        context.moveTo(minX,y);
+        context.lineTo(maxX,y);
+        //console.log(""+minX+"   "+y+"   "+maxX+"   "+y+"lines:  "+objectInProcess.lines.length);
+
+        for (let i = minX; i <=maxX; i++) {
+            if ((y-1)>0 && colorInPoint === colorInCoordinatesXY(i,y-1) &&  !haveJustDrawn(i,y-1)){
+                fillCanvasWhileColor(colorInPoint,i,y-1);
+            }
+            if ((y+1)<mainCanvas.height && colorInPoint === colorInCoordinatesXY(i,y+1) && !haveJustDrawn(i,y+1)){
+                fillCanvasWhileColor(colorInPoint,i,y+1);
+            }        
+            
+        }  
+            
+    } 
+}
+
+function haveJustDrawn(x,y) {  //проверить, внесли ли мы уже эту точку под покраску
+    let result=false;
+    for (let i = 0; i < objectInProcess.lines.length; i++) {
+        let line=objectInProcess.lines[i];
+        if (x>= line.points[0].getX() && x<=line.points[1].getX() && y===line.points[0].getY()){
+            result=true;
+            break;
+        }        
+        
+    }
+
+    return result;
+} 

@@ -202,7 +202,11 @@ function downloadImages() {   //все курсоры переместить!!!!
     
     img=new Image();
     img.src="./images/cursors/eraser.png"; 
-    cursors["eraser"]=img;      
+    cursors["eraser"]=img; 
+    
+    img=new Image();
+    img.src="./images/cursors/pipette.png"; 
+    cursors["pipette"]=img;      
 }
 
 function getAllPointsOfFrame() { //нужна для определения, какое действие мы будем делать при перемещении/трансформации: ротация, перемещение, ресайз через угол, или ресайз через сторону
@@ -246,6 +250,24 @@ function findPicture(path) {
     }  
     
     return false;
+}
+
+function toHex(value) {
+    return (value>15?value.toString(16):("0"+value.toString(16)));
+}
+
+function colorInCoordinates(coordinates) {
+    let colorInPoint = context.getImageData(coordinates.x, coordinates.y, 1, 1).data;
+    
+    return "#"+toHex(colorInPoint[0])+toHex(colorInPoint[1])+toHex(colorInPoint[2]);
+    
+}
+
+function colorInCoordinatesXY(x,y) {
+    let colorInPoint = context.getImageData(x, y, 1, 1).data;
+    
+    return "#"+toHex(colorInPoint[0])+toHex(colorInPoint[1])+toHex(colorInPoint[2]);
+    
 }
 
 
@@ -365,14 +387,17 @@ function createNewPoint(oldPoint,x,y) {
     
 }
 
-function replaceIntoCurrentObject(value) {
+function replaceIntoCurrentObject(value,bAddToHistory=false) {
     for (let i = 0; i < currentObject.length; i++) {
         if (currentObject[i].getTime()===value.getTime()){
             currentObject[i]=value;
             break;
         }
     }
-    addToHistory();
+    if (bAddToHistory){
+        addToHistory();
+    }
+    
 }
 
 function refreshHistory() {

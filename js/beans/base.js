@@ -330,6 +330,29 @@ class PointWithColor extends Point {
 
 }
 
+class LineForFill{
+    constructor(...args){ //x1,y1, x2,y2
+        this.points=[new Point(args[0],args[1]),new Point(args[2],args[3])];
+    }
+
+    getPoint0(){
+        let result=undefined;
+        if (this.points.length>0){
+            result=this.points[0];
+        }
+        return result
+    }
+
+    getPoint1(){
+        let result=undefined;
+        if (this.points.length>1){
+            result=this.points[1];
+        }
+        return result
+    }    
+
+}
+
 class SideWindow{
     constructor(args){
         this.type=args[0];

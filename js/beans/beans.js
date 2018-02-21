@@ -288,6 +288,7 @@ class PenShape extends Shape  {
         } 
         this.points.forEach(point => {
          //  context.beginPath();
+            context.restore();         
             context.lineWidth=this.lineWidth;
             context.strokeStyle=point.getColor();
             context.fillStyle=point.getColor();
@@ -946,3 +947,56 @@ class ImageShape extends BaseShape{
 
 }
 
+
+class FillShape extends BaseShape  {
+    constructor(...args){
+        super(...args);
+        this.color=args[1];
+        this.lines=[];
+    }
+
+
+    getColor(){
+        return this.color;
+    }
+
+    setColor(color){
+        this.color=color;
+        this.modify();
+    }
+
+    clearLines(){
+        this.lines=[];
+    }
+
+    addLine(...args){ //x1,y1,x2,y2
+        this.lines.push(new LineForFill(...args));
+    }
+
+
+    show(){
+        this.lines.forEach(line => {
+            context.beginPath();
+            context.restore(); 
+            context.strokeStyle=this.getColor();        
+            context.moveTo(line.getPoint0().getX(),line.getPoint0().getY());
+            
+            context.lineTo(line.getPoint1().getX(),line.getPoint1().getY());
+            context.stroke();            
+        });       
+    }
+
+    onMouseMove(coordinates,buttonPressed){
+        objectInProcess=this;
+    }
+/*
+    getSettingsPanel(){  //панель со свойствами: цвет, размер линии, заливка и т.п.
+        let result="";
+
+        result="Толщина линии: <input id='lineWidthSettings' type='number' value='"
+                +this.getLineWidth()+"' onchange='lineWidthSettingsFunction(objectInProcess)'/>";
+
+        return result;
+    }       
+*/   
+}

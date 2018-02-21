@@ -88,7 +88,7 @@
 									<img src="./images/buttons/clear.png" class="menuImage">  Стирка</a></li>
 								<li><a href="#"  onCLick="onClickMainMenu(BUTTON_FILL)">
 									<img src="./images/buttons/fill.png" class="menuImage">  Заливка</a></li>
-								<li><a href="#"  onCLick="onClickMainMenu(BUTTON_PIPET)">
+								<li><a href="#"  onCLick="onClickMainMenu(BUTTON_PIPETTE)">
 											<img src="./images/buttons/pipet.png" class="menuImage">  Взять цвет</a></li>									
 								<li><a href="#"  onCLick="mainMenu(BUTTON_IMAGE)">
 										<img src="./images/buttons/image.png" class="menuImage">  Изображение</a></li>
@@ -150,7 +150,7 @@
 				<img src="./images/buttons/text.png" class="toolImage" id="bText" alt="Текст" onCLick="onClickByLeftMenu(BUTTON_TEXT)"><br/>
 				<img src="./images/buttons/clear.png" class="toolImage" id="bClear" alt="Стирка" onCLick="onClickByLeftMenu(BUTTON_CLEAR)"><br/>
 				<img src="./images/buttons/fill.png" class="toolImage" id="bFill" alt="Заливка" onCLick="onClickByLeftMenu(BUTTON_FILL)"><br/>
-				<img src="./images/buttons/pipet.png" class="toolImage" id="bPipet" alt="Взять основной цвет" onCLick="onClickByLeftMenu(BUTTON_PIPET)"><br/>
+				<img src="./images/buttons/pipet.png" class="toolImage" id="bPipet" alt="Взять основной цвет" onCLick="onClickByLeftMenu(BUTTON_PIPETTE)"><br/>
 				<input id='currentColor' alt="Цвет линии"  onCLick="onClickByLeftMenu(BUTTON_COLOR)"/>
 				<input id='currentBackgroundColor' alt="Цвет фона" onCLick="onClickByLeftMenu(BUTTON_BACKGROUND_COLOR)" />
 			</div>
@@ -160,19 +160,19 @@
 				<canvas id='mainCanvas'>Обновите браузер</canvas>
 			
 			</div>
-			<aside class="settings" id="settingsDiv"><h5>
-				<div class="header">
+			<aside class="settings" id="settingsDiv">
+				<div class="header"><h5>
 					<image src="./images/buttons/shift.png" onclick="workWithPanel(PANEL_SETTINGS,PANEL_SHIFT)"  alt="Свернуть/Развернуть панель" height="25" width="25">
-					<image src="./images/buttons/close.png" onclick="workWithPanel(PANEL_SETTINGS,PANEL_HIDE)"  alt="Закрыть панель" height="25" width="25"></image>
+					<image src="./images/buttons/close.png" onclick="workWithPanel(PANEL_SETTINGS,PANEL_HIDE)"  alt="Закрыть панель" height="25" width="25">
 					&nbsp;<b>Настройки:</b></h5>
 				</div>
 				<div id="divSettings"> ---
 				</div>
 			</aside>			
-			<aside class="histories" id="historyPanel"><h5>
-				<div class="header">
+			<aside class="histories" id="historyPanel">
+				<div class="header"><h5>
 					<image src="./images/buttons/shift.png" onclick="workWithPanel(PANEL_HISTORY,PANEL_SHIFT)"  alt="Свернуть/Развернуть панель" height="25" width="25">
-					<image src="./images/buttons/close.png" onclick="workWithPanel(PANEL_HISTORY,PANEL_HIDE)"  alt="Закрыть панель" height="25" width="25"></image>
+					<image src="./images/buttons/close.png" onclick="workWithPanel(PANEL_HISTORY,PANEL_HIDE)"  alt="Закрыть панель" height="25" width="25">
 					&nbsp;<b>История:</b></h5>
 				</div>
 				<div id="historyList"> ---

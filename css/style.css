@@ -96,6 +96,7 @@ body {
      
 }
 
+
 .histories{
     display: table-cell;
     height:45%;
@@ -128,17 +129,29 @@ body {
     bottom: 8px;
 }
 
+.header img{
+    position:inherit; /* добавили */
+    top: 2px;
+    margin: 0px;
+}
+
+.header h5{
+
+    margin: 0px;
+}
+
 .histories table{
+    position:relative; 
     border: 1px;
     border-color: black;
     border-style: solid;
     background-color: #ac9881;  
     width:95%;  
+    top: 30px;
     align-content: center;
 }
 
 .histories table tr{
-    position:absolute; /* добавили */
     width:98%;
     bottom: 8px;
     border: 1px;
@@ -153,8 +166,14 @@ input[type=number]{
 } 
 
 #divSettings{
-    text-align: right;
-    vertical-align: top;
+    position:relative; 
+    border: 1px;
+    border-color: black;
+    border-style: solid;
+    background-color: #ac9881;  
+    width:95%;  
+    top: 30px;    
+    
 }
 
 .main{
