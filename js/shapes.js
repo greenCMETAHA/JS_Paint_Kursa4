@@ -27,7 +27,7 @@ function onMouseDownShapes(coordinates) {
                 objectInProcess.onMouseDown();              
                 break; 
             case BUTTON_STAR:
-                let angles=5;   //для Объекта сделать панель
+                //let angles=5;   //для Объекта сделать панель
                 objectInProcess=new StarShape("star",colorValue,settings.isFilled,backgroundColorValue,settings.lineWidth
                     ,new Point(coordinates.x,coordinates.y),settings.angles);
                 objectInProcess.onMouseDown();               

@@ -154,6 +154,15 @@ class LineShape extends RectangleShape  {
         context.lineTo(this.points[1].getX(),this.points[1].getY());
         context.stroke();
     }
+
+    onMouseMove(coordinates,buttonPressed){
+        this.setPointInPosition(1,coordinates.x, coordinates.y);
+        if (buttonPressed>0){
+            objectInProcess.createFrame(objectInProcess);
+        }
+        currentObject[currentObject.length-1]=objectInProcess;
+        
+    }      
 }
 
 class TriangleShape extends RectangleShape  {
@@ -201,7 +210,7 @@ class StarShape extends RectangleShape  {
         super(...args);
         this.angles=args[6]||10;    //Правильная N-конечная звезда
         this.points=new Array(this.angles+1).fill(args[5]);
-        
+        this.backPoint=new Point(0,0);
     }
 
     show(){
@@ -232,12 +241,14 @@ class StarShape extends RectangleShape  {
 
     setAngles(value){
         this.angles=value;
+        let oldPoint=this.points[0];
+        this.points=new Array(this.angles+1).fill(oldPoint);
+        this.setPoint(this.backPoint.getX(),this.backPoint.getY(),false);
         this.modify();
     }    
 
     setPoint(x,y){
-
-
+        this.backPoint=new Point(x,y);
         let centerX=this.points[0].getX()+((x-this.points[0].getX())/2); //Расчет центра по х
         let centerY=this.points[0].getY()+((y-this.points[0].getY())/2); //Расчет центра по y
         let radiusInside=Math.abs(x-this.points[0].getX());
@@ -262,8 +273,8 @@ class StarShape extends RectangleShape  {
             +(this.isFilled()?"checked":"")+" />заполнять<br>"
             +"Толщина линии: <input id='lineWidthSettings' type='number' value='"
             +this.getLineWidth()+"' onchange='lineWidthSettingsFunction(objectInProcess)'/><br>"
-            +"Количество углов: <input id='angelsSettings' type='number' value='"
-            +this.getAngles()+"' onchange='angelsSettingsFunction(objectInProcess)'/>";
+            +"Количество углов: <input id='anglesSettings' type='number' value='"
+            +this.getAngles()+"' onchange='anglesSettingsFunction(objectInProcess)'/>";
 
         return result;
     }      
@@ -272,6 +283,15 @@ class StarShape extends RectangleShape  {
         currentObject[currentObject.length-1]=objectInProcess;
         this.createFrame();
     }
+
+    onMouseMove(coordinates,buttonPressed){
+        this.setPoint(coordinates.x,coordinates.y);
+        if (buttonPressed>0){
+            objectInProcess.createFrame(objectInProcess);
+        }
+        currentObject[currentObject.length-1]=objectInProcess;
+        
+    }     
 }
 
 
@@ -395,7 +415,7 @@ class CurveShape extends PenShape  {
 
         result="<input type='checkbox' id='isFilledSettings' onchange='isFilledElementSettingsFunction(objectInProcess)'"
             +(this.isFilled()?"checked":"")+" />заполнять<br>"
-            +"<input id='closedPathSettings' type='number' value='"
+            +"<input id='closedPathSettings' type='checkbox' value='"
             +this.isClosedPath()+"' onchange='closePathSettingsFunction(objectInProcess)'/>замкнуть<br>"
             +"Толщина линии: <input id='lineWidthSettings' type='number' value='"
             +this.getLineWidth()+"' onchange='lineWidthSettingsFunction(objectInProcess)'/>";

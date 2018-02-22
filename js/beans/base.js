@@ -179,7 +179,7 @@ class BaseShape {
     } 
     
     getSettingsPanel(){  //панель со свойствами: цвет, размер линии, заливка и т.п.
-        return "";
+        return "Нет данных";
     }
 
 }

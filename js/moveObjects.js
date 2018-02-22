@@ -100,6 +100,7 @@ function deletePoints(coordinates) {
 }
 
 function getModeForResizeRemoveElement(coordinates,all4Points) {
+    //console.log(""+coordinates.x+","+coordinates.y);
     let result=undefined;
     document.getElementsByTagName("canvas")[0].style.cursor = "url('"+cursors.main.src+"'), auto";
     const offset=5;

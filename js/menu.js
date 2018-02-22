@@ -12,7 +12,9 @@ var buttonsOkCancelDiv=null;
 var fileDialog;
 
 function onClickByLeftMenu(mode, buttonIdInLeftMenu=currentButtonIdInLeftMenu){
-    checkIfSomethingInProgress();
+    if (checkIfSomethingInProgress()){
+        return;
+    }
 
     document.getElementsByTagName("canvas")[0].style.cursor = "url('"+cursors.main.src+"'), auto";
     switch (mode) {   //var buttonsInLeftMenu=["bMove","bSelect","bPen","bShape","bText","bClear","bFill"];
@@ -132,7 +134,10 @@ function changeColorForObjects(mode) {
 
 function mainMenu(mode) {
     let urlOpen=undefined;
-    checkIfSomethingInProgress();
+    if (checkIfSomethingInProgress()){
+        return;
+    }
+
 
     switch (mode) {
         case MENU_NEW_FILE:
@@ -191,6 +196,7 @@ function undo() {
     currentstepOfHistory=currentstepOfHistory>=0?currentstepOfHistory-1:currentstepOfHistory;
     currentObject=currentstepOfHistory===-1?[]:copyArray(historyChannel[currentstepOfHistory]);
     console.log("history: "+currentObject+" from "+historyChannel.length);
+    changePanelSettings();
     show();    
 }
 
@@ -198,6 +204,7 @@ function redo() {
     currentstepOfHistory=currentstepOfHistory<(historyChannel.length-1)?currentstepOfHistory+1:currentstepOfHistory;
     currentObject=copyArray(historyChannel[currentstepOfHistory]);
     console.log("history: "+currentObject+" from "+historyChannel.length);
+    changePanelSettings();
     show();       
 }
 

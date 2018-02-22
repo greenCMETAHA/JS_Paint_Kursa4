@@ -68,11 +68,11 @@ function rotationSettingsFunction(current=undefined) {
     show();
 }
 
-function angelsSettingsFunction(current=undefined) {
+function anglesSettingsFunction(current=undefined) {
     if (current){
         let elem=document.getElementById("angelsSettings");
         if (elem){
-            current.setAngels(+elem.value);
+            current.setAngles(+elem.value);
         }
         replaceIntoCurrentObject(current);
     }
@@ -163,7 +163,7 @@ function getCurrentSettingsForElement() {
     let arr = settings.getElementsByTagName("input");
     for (let i = 0; i < arr.length; i++) {
         let value=arr[i].value;
-        let name= arr[i].name.replace("Settings","");
+        let name= arr[i].id.replace("Settings","");
         value=value==="on"?true:(value==="off"?false:+value);
         result[name]=value;
     }

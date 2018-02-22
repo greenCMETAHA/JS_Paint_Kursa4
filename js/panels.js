@@ -66,6 +66,7 @@ function onClickHistory(actionNumber) {
     currentstepOfHistory=actionNumber;
    // console.log("history: "+currentObject+" from "+historyChannel.length);
     showHistoryList();
+    changePanelSettings();
     show();      
     
 }

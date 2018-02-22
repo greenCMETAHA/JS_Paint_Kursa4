@@ -223,12 +223,14 @@ function getAllPointsOfFrame() { //нужна для определения, к�
 function checkIfSomethingInProgress() {
     if (objectInProcess){
         beep();
-        return;
+        return true;
     }
    
     if (isOkCancelVisible){  //Если в процессе редактирования какая-то фигура - скинем её.
         onClickMainMenu(BUTTON_CANCEL);
-    }    
+    }   
+    
+    return false;
 }
 
 
@@ -355,9 +357,14 @@ function createNewObject() {
         if (typeof (this[key])==="object" && Array.isArray(this[key])){
             result[key]=[];
             this[key].forEach(element => {
-                let point=new Point(element.x,element.y);
-                if (element.color!==undefined){
-                    point=new PointWithColor(element.x,element.y,element.color);
+                let point=null;
+                if (key==="cursorPosition"){
+                    point=element;
+                }else{
+                    point=new Point(element.x,element.y);
+                    if (element.color!==undefined){
+                        point=new PointWithColor(element.x,element.y,element.color);
+                    }
                 }
                 result[key].push(point);
             });
