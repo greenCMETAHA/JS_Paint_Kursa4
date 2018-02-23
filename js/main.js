@@ -11,7 +11,8 @@ var currentColor="ffffffff", currentBackgroundColor="00000000";
 
 var CURRENT_BUTTON_POINTS=BUTTON_POINTS, CURRENT_BUTTON_SHAPE=BUTTON_RECTANGLE, CURRENT_BUTTON_SELECT=BUTTON_SELECT_RECTANGLE;
 var mainCanvas=null;
-var buttonsInLeftMenu=["bMove","bSelect","bPen","bShape","bText","bClear","bFill"];
+//var buttonsInLeftMenu=["bMove","bSelect","bPen","bShape","bText","bClear","bFill"];
+var buttonsInLeftMenu=["bMove","bPen","bShape","bText","bClear","bFill"];
 var currentButtonIdInLeftMenu="bMove";
 
 var cursors={};
@@ -116,7 +117,7 @@ function getCurrentSettings() { //взять настройки из localStorag
     CURRENT_BUTTON_SELECT=current.BUTTON_SELECT || BUTTON_SELECT_RECTANGLE; //Поменять потом, когда на одной кнопке будет много назначений
     changePictureForLeftMenu("bPen", getImageForToolButton(CURRENT_BUTTON_POINTS));
     changePictureForLeftMenu("bShape", getImageForToolButton(CURRENT_BUTTON_SHAPE));
-    changePictureForLeftMenu("bSelect", getImageForToolButton(CURRENT_BUTTON_SELECT));
+    //changePictureForLeftMenu("bSelect", getImageForToolButton(CURRENT_BUTTON_SELECT));
 }
 
 function saveCurrentSettings() { //настройки - в localStorage
@@ -168,7 +169,16 @@ window.onresize = function(event) {
     setCanvasSize();
 };
 
-document.getElementById("theFilePath").onchange=function (ev) {
+document.getElementById("theFilePath").addEventListener("change",(ev)=>{ 
+    workWithFiles(ev);
+});
+document.getElementById("savedFile").addEventListener("change",(ev)=>{ workWithFiles(ev);});
+
+
+
+
+
+function workWithFiles(ev) {
     var files = ev.target.files, fr, data;
     console.log(ev);
     if (fileMode){
@@ -184,7 +194,8 @@ document.getElementById("theFilePath").onchange=function (ev) {
             case MENU_OPEN_FILE:
                 file=files[0];
                 if (file){
-                    if (file.type==="jpg" || file.type==="png"){
+                    if (file.type==="image/jpeg" || file.type==="image/png"){
+                        clearCanvas();
                         fr = new FileReader();
                         fr.readAsDataURL(file);
                         fr.onload = (function (file, data) {
@@ -197,14 +208,37 @@ document.getElementById("theFilePath").onchange=function (ev) {
                             document.getElementById("theFilePath").value="";
                             isOkCancelVisible=false;
                             visibilityOkCancelDiv();
+                            objectInProcess=undefined;
+                            show();
                         });
 
-                    }else if (file.type==="gsi") { //наш формат
-                        let reader = new FileReader();
+                    }else {//if (file.type==="gsi") { //наш формат
+                        if (window.File && window.FileReader && window.FileList && window.Blob) {
+                            // Great success! All the File APIs are supported.
+                        } else {
+                            alert('The File APIs are not fully supported in this browser.');
+                        }
 
-                        reader.onload = function(ev) {
-                            var str = e.target.result;
-                            let obj=JSON.parse(obj);
+                        fr = new FileReader();
+                        fr.readAsText(file);
+
+                        fr.onload = function(ev) {
+                            var str = ev.target.result;
+                            currentObject=[];
+                            objectInProcess=undefined;
+                            clearCanvas();
+
+                            let arr=JSON.parse(str);
+                            for (let i = 0; i < arr.length; i++) {
+                                currentObject.push(cloneObject(arr[i]));
+                            }
+
+                            addToHistory();
+                            document.getElementById("theFilePath").value="";
+                            isOkCancelVisible=false;
+                            visibilityOkCancelDiv();
+                            objectInProcess=undefined;   
+                            show();                         
                         };
 
                     }
@@ -212,25 +246,18 @@ document.getElementById("theFilePath").onchange=function (ev) {
                 }
                 
                 break;
-            case MENU_SAVE_FILE:
-                document.querySelector('canvas').toBlob(function(blob) {
-                    saveFileDialog(blob, filename);
-                });  
-                
+            case MENU_SAVE_FILE:  //как картинку
+              /*  var imageData = canvas.toDataURL();
+                var image = new Image();
+                image.src = imageData;
+
+                window.location.href=image; 
+               */ 
                 
                 
                 break;
-            case MENU_SAVE_FILE_AS:
-                let dataUrl=canvas.toDataURL('image/png');
-                let img=new Image();
-                img.src=dataUrl;
-
-                var link = document.createElement("a");
- 
-                link.setAttribute("href", img.src);
-                link.setAttribute("download", "canvasImage");
-                link.click();
-                
+            case MENU_SAVE_FILE_AS:  //как свой gsi-формат
+              
                 break;
             case BUTTON_IMAGE:
 

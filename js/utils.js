@@ -254,6 +254,7 @@ function findPicture(path) {
     return false;
 }
 
+
 function toHex(value) {
     return (value>15?value.toString(16):("0"+value.toString(16)));
 }
@@ -345,8 +346,11 @@ function createNewObject() {
             result=new TextShape(this.type);
             break;            
         case "image":
-            result=new ImageShape(this.type);
+            result=new ImageShape(this.type,this.path);
             break;
+        case "fill":
+            result=new FillShape(this.type);
+            break;            
 
         default:
             break;
@@ -364,10 +368,16 @@ function createNewObject() {
                     point=new Point(element.x,element.y);
                     if (element.color!==undefined){
                         point=new PointWithColor(element.x,element.y,element.color);
+                    }else if (key==="lines"){
+                        point=new LineForFill(element.points[0].x,element.points[0].y,element.points[1].x,element.points[1].y);
                     }
                 }
                 result[key].push(point);
             });
+            if (typeof(result["created"])==="string"){
+                result["created"]=new Date(new Date()-(10000*(currentObject.length+1)));
+            }
+            result["inProcess"]=false;
         }
     }
 
@@ -388,7 +398,7 @@ function cloneObject(current=objectInProcess) {
 function createNewPoint(oldPoint,x,y) {
     let result=new Point(x,y);
     if (oldPoint["color"]){
-        point=new PointWithColor(x,y,oldPoint.getColor());
+        result=new PointWithColor(x,y,oldPoint.getColor());
     }
     return result;
     

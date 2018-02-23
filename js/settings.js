@@ -70,7 +70,7 @@ function rotationSettingsFunction(current=undefined) {
 
 function anglesSettingsFunction(current=undefined) {
     if (current){
-        let elem=document.getElementById("angelsSettings");
+        let elem=document.getElementById("anglesSettings");
         if (elem){
             current.setAngles(+elem.value);
         }
@@ -164,7 +164,7 @@ function getCurrentSettingsForElement() {
     for (let i = 0; i < arr.length; i++) {
         let value=arr[i].value;
         let name= arr[i].id.replace("Settings","");
-        value=value==="on"?true:(value==="off"?false:+value);
+        value=arr[i].type==="checkbox"?arr[i].checked:+value;
         result[name]=value;
     }
     

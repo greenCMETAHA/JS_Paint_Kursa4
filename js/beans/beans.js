@@ -184,6 +184,10 @@ class TriangleShape extends RectangleShape  {
         context.lineTo(this.points[2].getX(),this.points[2].getY());
         context.lineTo(this.points[3].getX(),this.points[3].getY());
         context.closePath();
+        if (this.isFilled()){
+            context.fillStyle = this.getBackgroundColor(); 
+            context.fill();
+        }        
         context.stroke();
     }
 
@@ -837,6 +841,8 @@ class ImageShape extends BaseShape{
         this.height=args[3];
         this.points=[ new Point(mainCanvas.width/2-(this.width/2), mainCanvas.height/2-(this.height/2))
                     , new Point(mainCanvas.width/2+(this.width/2), mainCanvas.height/2+(this.height/2))]; //new Point, new Point
+        this.image=new Image();
+        this.image.src=args[1];
         this.rotation=0; //degrees
         this.path=args[1];
         this.numberInArray=args[4];
@@ -865,7 +871,8 @@ class ImageShape extends BaseShape{
     }
 
     getPicture(){
-        return imagesInPicture[this.getNumberInArray()];
+       // return imagesInPicture[this.getNumberInArray()];
+       return this.image;
 
     }
 
@@ -957,12 +964,17 @@ class ImageShape extends BaseShape{
         if (this.inProcess){ 
             this.showFrame();
         }        
-        context.restore();
-        context.beginPath();
-        //context.transform();
+        let img=this.getPicture();
+        img.onload=function () {
+            context.restore();
+            context.beginPath();
+            //context.transform();
+            
+    
+            context.drawImage(img,this.points[0].getX(),this.points[0].getY(),this.getWidth(),this.getHeight());
+            context.stroke();            
+        }
 
-        context.drawImage(this.getPicture(),this.points[0].getX(),this.points[0].getY(),this.getWidth(),this.getHeight());
-        context.stroke();
     }
 
 }

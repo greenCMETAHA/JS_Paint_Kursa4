@@ -190,6 +190,9 @@ function onMouseMoveShapes(coordinates,buttonPressed) {
                     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     case MOVE_ROTATE_ANGLE_0:  //ротацию пока сложно. Надо вычислить, на какой градус изменяться, перессчитать frame. Вообще, всесь Frame убрать из showFrame 
                         document.getElementsByTagName("canvas")[0].style.cursor = "url('"+cursors.rotate_top_left.src+"'), auto";
+                        rotateObjectInProcess(coordinates);
+
+                       // yOffset=currentCanvasCoordinates.getY()-coordinates.y;
                    /* let point=all4Points[0];
                         objectInProcess.setRotation(Math.max(coordinates.x-point.getX(),coordinates.y-point.getY()));  
                         */ 
@@ -198,7 +201,7 @@ function onMouseMoveShapes(coordinates,buttonPressed) {
                         break;
                     case MOVE_ROTATE_ANGLE_1: 
                         document.getElementsByTagName("canvas")[0].style.cursor = "url('"+cursors.rotate_top_right.src+"'), auto";
-
+                        rotateObjectInProcess(coordinates);
 
 
                        /* let xOffset=(all4Points[2].getX()-all4Points[0].getX())/2;
@@ -216,6 +219,7 @@ function onMouseMoveShapes(coordinates,buttonPressed) {
                         break;
                     case MOVE_ROTATE_ANGLE_2:
                         document.getElementsByTagName("canvas")[0].style.cursor = "url('"+cursors.rotate_bottom_left.src+"'), auto";
+                        rotateObjectInProcess(coordinates);
                     /*
                         let xOffset=(all4Points[2].getX()-all4Points[0].getX())/2;
                         let yOffset=((all4Points[2].getY()-all4Points[0].getY())/2)
@@ -228,6 +232,7 @@ function onMouseMoveShapes(coordinates,buttonPressed) {
                         break;
                     case MOVE_ROTATE_ANGLE_3:
                         document.getElementsByTagName("canvas")[0].style.cursor = "url('"+cursors.rotate_bottom_right.src+"'), auto";
+                        rotateObjectInProcess(coordinates);
                     /*
                         let xOffset=(all4Points[2].getX()-all4Points[0].getX())/2;
                         let yOffset=((all4Points[2].getY()-all4Points[0].getY())/2)
@@ -533,3 +538,40 @@ function haveJustDrawn(x,y) {  //проверить, внесли ли мы уж
 
     return result;
 } 
+
+function rotateObjectInProcess(coordinates) {
+    let xOffset=currentCanvasCoordinates.getX()-coordinates.x;
+    let yOffset=currentCanvasCoordinates.getY()-coordinates.y;
+    //let offset=Math.max(xOffset,-yOffset)/100;
+    let offset=(xOffset-yOffset)/100;
+    if (objectInProcess.getType()==="rectangle" || objectInProcess.getType()==="triangle" || objectInProcess.getType()==="pen" 
+        || objectInProcess.getType()==="curve" || objectInProcess.getType()==="star" || objectInProcess.getType()==="line" ){
+            
+            let frame=objectInProcess.getFrame();
+            let x0=(frame[1].getX()-frame[0].getX())/2+frame[0].getX();
+            let y0=(frame[1].getY()-frame[0].getY())/2+frame[0].getY();
+            let newPoints=[];
+            objectInProcess.points.forEach(element => {
+
+
+                let newX = x0 + (element.getX() - x0) * Math.cos(offset) - (element.getY()  - y0) * Math.sin(offset);
+                let newY = y0 + (element.getY()  - y0) * Math.cos(offset) + (element.getX() - x0) * Math.sin(offset);
+
+                newPoints.push(createNewPoint(element,newX,newY));
+        
+                
+            });
+            objectInProcess.points=newPoints;
+            currentCanvasCoordinates=new Point(coordinates.x,coordinates.y); 
+
+
+    }else if (objectInProcess.getType()==="circle" || objectInProcess.getType()==="image" ){
+        objectInProcess.setRotation(objectInProcess.getRotation()+offset);
+        changePanelSettings(objectInProcess);
+    }else{
+        //там остались fill и text. их не будем вращать. 
+    }
+
+             
+
+}

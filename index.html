@@ -34,8 +34,8 @@
 						<ul>
 							<li><a href="#" onclick="mainMenu(MENU_NEW_FILE)">Новый файл</a></li>
 							<li><a href="#" onclick="mainMenu(MENU_OPEN_FILE)">Открыть файл</a></li>
-							<li><a href="#" onclick="mainMenu(MENU_SAVE_FILE)">Сохранить файл</a></li>
-							<li><a href="#" onclick="mainMenu(MENU_SAVE_FILE_AS)">Сохранить файл как</a></li>
+							<li><a href="#" onclick="mainMenu(MENU_SAVE_FILE)">Сохранить файл как изображение</a></li>
+							<li><a href="#" onclick="mainMenu(MENU_SAVE_FILE_AS)">Сохранить файл как текст</a></li>
 							<li><a href="#"><hr></a></li>
 							<li><a href="#" onclick="mainMenu(MENU_PRINT)">Печать</a></li>
 						</ul>	
@@ -51,6 +51,8 @@
 						<ul>
 								<li><a href="#"  onCLick="onClickMainMenu(BUTTON_MOVE)">
 									<img src="./images/buttons/move.png" class="menuImage">  Перемещение</a></li>
+
+									<!--
 								<li><a href="#">Выделение</a>
 									<ul>
 										<li><a href="#" onCLick="onClickMainMenu(BUTTON_SELECT_RECTANGLE)">
@@ -58,7 +60,7 @@
 										<li><a href="#" onCLick="onClickMainMenu(BUTTON_SELECT_LASSO)">
 												<img src="./images/buttons/selectlasso.png" class="menuImage">  Лассо</a></li>  
 									</ul>										
-								</li>
+								</li>  -->
 								<li><a href="#">Карандаш</a>
 									<ul>
 										<li><a href="#" onCLick="onClickMainMenu(BUTTON_POINTS)">
@@ -125,13 +127,14 @@
 		<div class="mainWindow">
 			<div id="buttons" class="buttons">
 				<img src="./images/buttons/move.png" class="toolImageActive" id="bMove" alt="Перемещение" onCLick="onClickByLeftMenu(BUTTON_MOVE)"><br/>
-
+<!--	
 				<ul class='custom-menu custom-style' id="popupForbSelect">
 					<li onclick="onClickByLeftMenu(BUTTON_SELECT_RECTANGLE)"><img src="./images/buttons/select.png" class="toolImageForPopup"  alt="Выделить прямоугольником">  Выделить прямоугольником</li>
 					<li onclick="onClickByLeftMenu(BUTTON_SELECT_LASSO)"><img src="./images/buttons/selectlasso.png" class="toolImageForPopup"  alt="Выделить с помощь лассо">  Выделить с помощью лассо</li>
-				  </ul>				
+				  </ul>	
+				  		
 				<img src="./images/buttons/select.png" class="toolImage" id="bSelect" alt="Выделение" onCLick="onClickByLeftMenu(CURRENT_BUTTON_SELECT)"><br/>
-	
+				  -->
 				<ul class='custom-menu custom-style' id="popupForbPen">
 					<li onclick="onClickByLeftMenu(BUTTON_POINTS)"><img src="./images/buttons/pen.png" class="toolImageForPopup"  alt="Рисуем точки">  Точки</li>
 					<li onclick="onClickByLeftMenu(BUTTON_CURVE)"><img src="./images/buttons/curve.png" class="toolImageForPopup"  alt="Рисуем многоугольник по точкам">  Многоугольник по точкам</li>
@@ -184,12 +187,14 @@
 	
 		<input type="file" id="theFilePath" value="${currentPath}" hidden/>
 		<input type="file" id="savedFile" value="${currentPath}" hidden/>
+		<a href="#" id="downloader" download="image.png" hidden>Download!</a>
 		<script src="./js/beans/base.js"></script>
 		<script src="./js/beans/beans.js"></script>
 		<script src="./js/show.js"></script>
 		<script src="./js/main.js"></script>				
 		<script src="./js/shapes.js"></script>
-		<script src="./js/libraries/popup.js"></script>	
+		<script src="./js/libraries/popup.js"></script>
+		<script src="./js/libraries/canvas2image.js"></script>			
 				
 	</body>
 </html>

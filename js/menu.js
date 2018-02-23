@@ -150,17 +150,41 @@ function mainMenu(mode) {
             urlOpen=openFileDialogAndGetPath('savedFile');
 
             break;
-        case MENU_SAVE_FILE:
+        case MENU_SAVE_FILE:  //как image
             fileMode=mode;
-            if(currentObject.length===0) {
-                mainMenu(MENU_SAVE_FILE_AS);
-            }else{
-                urlOpen=openFileDialogAndGetPath('savedFile');
-            }
+
+           /* var image = mainCanvas.toDataURL();
+
+            var aLink = document.createElement('a');
+            var evt = document.createEvent("HTMLEvents");
+            evt.initEvent("click");
+            aLink.download = 'image.png';
+            aLink.href = image;
+            aLink.dispatchEvent(evt);     
+            */       
+            var imageData = mainCanvas.toDataURL();
+            var image = new Image();
+            image.src = imageData;
+            Canvas2Image.saveAsJPEG(mainCanvas);
+            
+            //document.location.href=image;             
+            //------------------------------------------------
             break;
-        case MENU_SAVE_FILE_AS: 
+        case MENU_SAVE_FILE_AS:  //как свой gsi-формат
             fileMode=mode;
-            urlOpen=openFileDialogAndGetPath('theFilePath');
+
+            let str=JSON.stringify(currentObject);
+            var file = new Blob([str], {type: 'application/json'});
+           // a.href = URL.createObjectURL(file);
+              
+            let  aTag=document.getElementById("downloader");
+            aTag.download = "image.gsi";
+            aTag.href=URL.createObjectURL(file);	
+            aTag.click();
+            
+
+            //------------------------------------------------
+            
             break;
         case BUTTON_IMAGE: 
             fileMode=mode;

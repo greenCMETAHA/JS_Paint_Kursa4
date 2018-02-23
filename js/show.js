@@ -27,6 +27,7 @@ function show(coordinates) {
         context.strokeRect(coordinates.x-(CLEAR_SIZE/2),coordinates.y-(CLEAR_SIZE/2),CLEAR_SIZE,CLEAR_SIZE);
         context.setLineDash([]);         
     }
+    showHistoryList();
 
     
 }
