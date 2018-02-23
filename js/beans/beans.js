@@ -965,7 +965,8 @@ class ImageShape extends BaseShape{
             this.showFrame();
         }        
         let img=this.getPicture();
-        img.onload=function () {
+        let that=this;
+        img.onload=function (ev) {
             context.restore();
             context.beginPath();
             //context.transform();
@@ -973,8 +974,7 @@ class ImageShape extends BaseShape{
     
             context.drawImage(img,this.points[0].getX(),this.points[0].getY(),this.getWidth(),this.getHeight());
             context.stroke();            
-        }
-
+        }.apply(that);
     }
 
 }

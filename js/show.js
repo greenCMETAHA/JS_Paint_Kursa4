@@ -4,6 +4,7 @@ function clearCanvas() {
     clearCanvasField();
     currentObject=[];
     historyChannel=[];
+    currentstepOfHistory=-1;
     imagesInPicture=[];
     refreshHistory();
 }
